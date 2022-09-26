@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import Axios from 'axios'
 import axios from 'axios';
 import Add from './components/Add'
+import Edit from './components/Edit'
 
 function App() {
 
@@ -57,6 +58,23 @@ function App() {
     })
   }
 
+  const handleDelete = (event) => {
+    axios
+    .delete('http://localhost:8000/api/users/' + event.target.value)
+    .then ((response) => {
+      getUsers()
+    })
+  }
+
+  const handleUpdate = (editUser) => {
+    console.log(editUser);
+    axios
+    .put('http://localhost:8000/api/users/' + editUser.id, editUser)
+    .then((response) => {
+      getUsers()
+    })
+  }
+
   useEffect(() => {
     getUsers()
   },[])
@@ -70,7 +88,10 @@ function App() {
           <div className='trainer' key={user.id}>
             <h4>Name: {user.name}</h4>
             <h5>Age: {user.age}</h5>
+            {/* <img src={pokemon.img} /> */}
             <h5>Pokemon: {user.pokemon}</h5>
+            <Edit handleUpdat={handleUpdate} id={user.id} />
+            <button onClick={handleDelete} value={user.id}>Delete</button>
           </div>
         )
       })}
