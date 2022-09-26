@@ -1,7 +1,8 @@
 import './App.css';
-import { useState } from 'react' 
+import { useEffect, useState } from 'react' 
 import Axios from 'axios'
 import axios from 'axios';
+import Add from './components/Add'
 
 function App() {
 
@@ -16,6 +17,8 @@ function App() {
     defense:'',
     type:'' ,
   })
+// where users will be 
+  let [users, setUsers] = useState([])
   
   const searchPokemon = () => {
     axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
@@ -35,8 +38,44 @@ function App() {
     
   }
 
+  const getUsers = () => {
+    axios
+    .get('http://localhost:8000/api/users')
+    .then(
+      (response) => setUsers(response.data),
+      (err) => console.error(err)
+    )
+    .catch((error) => console.error(error))
+  }
+  
+  const handleCreate = (addUser) => {
+    axios
+    .post('http://localhost:8000/api/users', addUser)
+    .then((response) => {
+      console.log(response)
+      getUsers()
+    })
+  }
+
+  useEffect(() => {
+    getUsers()
+  },[])
+
   return (
     <div className='App'>
+      <Add handleCreate={handleCreate} />
+      <div className='users'>
+      {users.map((user) => {
+        return (
+          <div className='trainer' key={user.id}>
+            <h4>Name: {user.name}</h4>
+            <h5>Age: {user.age}</h5>
+            <h5>Pokemon: {user.pokemon}</h5>
+          </div>
+        )
+      })}
+
+      </div>
       <div className='TitleSection'>
       <h1>Pokemon Stats</h1>
       <input type='text' onChange={(event) => {setPokemonName(event.target.value)}} 
