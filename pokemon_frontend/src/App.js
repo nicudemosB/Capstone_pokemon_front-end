@@ -1,6 +1,6 @@
 import './App.css';
 import { useEffect, useState } from 'react' 
-import Axios from 'axios'
+// import Axios from 'axios'
 import axios from 'axios';
 import Add from './components/Add'
 import Edit from './components/Edit'
@@ -98,7 +98,7 @@ function App() {
 
       </div>
       <div className='TitleSection'>
-      <h1>Pokemon Stats</h1>
+      <h1>Pokemon Collection</h1>
       <input type='text' onChange={(event) => {setPokemonName(event.target.value)}} 
       />
       <button onClick={searchPokemon}>Search Pokemon</button>

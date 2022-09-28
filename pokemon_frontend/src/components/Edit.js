@@ -29,7 +29,7 @@ const Edit = (props) => {
             <br />
             <br />
             
-            <lable htmlFor='age'>Age: </lable>
+            <label htmlFor='age'>Age: </label>
             <input
             type='number'
             name='age'

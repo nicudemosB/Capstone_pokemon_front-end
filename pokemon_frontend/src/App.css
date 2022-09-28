@@ -63,6 +63,7 @@ body {
   background-color: grey;
   display: flex;
   border: #5d89ff;
+  
 }
 
 .users button {
@@ -77,4 +78,23 @@ body {
 
 .user button:hover {
   cursor: pointer;
+}
+
+form {
+  background-color: rgb(184, 41, 41);
+}
+
+label {
+  font-family: 'Nabla', cursive;
+}
+
+input {
+  border-radius: 5px;
+  
+}
+
+details {
+  padding-right: 5px;
+  padding-left: 5px;
+  
 }
