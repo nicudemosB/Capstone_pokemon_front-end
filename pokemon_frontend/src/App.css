@@ -49,6 +49,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
 .DisplaySelection h4, h3 {
@@ -90,6 +91,8 @@ label {
 
 input {
   border-radius: 5px;
+  font-family: Arial, Helvetica, sans-serif;
+  cursor: pointer;
   
 }
 
@@ -97,4 +100,8 @@ details {
   padding-right: 5px;
   padding-left: 5px;
   
+}
+
+button {
+  cursor: pointer;
 }

@@ -91,7 +91,7 @@ function App() {
             {/* <img src={pokemon.img} /> */}
             <h5>Pokemon: {user.pokemon}</h5>
             <Edit handleUpdat={handleUpdate} id={user.id} />
-            <button onClick={handleDelete} value={user.id}>Delete</button>
+            <button onClick={handleDelete} value={user.id}>Delete Trainer</button>
           </div>
         )
       })}
