@@ -44,9 +44,10 @@ const Edit = (props) => {
             <input
             type='text'
             name='pokemon'
-            value={user.name}
+            value={user.pokemon}
             onChange={handleChange}
             />
+            <input type='submit'/>
         </form>
     </details>
     </>

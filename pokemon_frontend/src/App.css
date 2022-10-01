@@ -62,9 +62,13 @@ body {
 
 .users {
   background-color: grey;
-  display: flex;
+  display: none;
   border: #5d89ff;
   
+}
+
+.trainer {
+  padding: 0 10px 0 0; 
 }
 
 .users button {

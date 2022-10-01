@@ -4,7 +4,9 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import Add from './components/Add'
 import Edit from './components/Edit'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import Nav from './components/Nav'
+import Trainers from './components/Trainers'
 function App() {
 
   const [pokemonName, setPokemonName] = useState('')
@@ -20,6 +22,21 @@ function App() {
   })
 // where users will be 
   let [users, setUsers] = useState([])
+  const [showAdd, setShowAdd] = useState(false)
+  const showAddButton = () => {
+    showAdd ? setShowAdd(false) : setShowAdd(true) 
+  }
+// grabbing an element of users-div
+// if this element has a style display attribute = none, change it to flex 
+// if its anything else it changes to none(check CSS)
+  const showTrainer = () => {
+    const x = document.getElementById('users-div')
+    if(x.style.display === 'none') {
+      x.style.display = 'flex'
+    } else {
+      x.style.display = 'none'
+    }
+  }
   
   const searchPokemon = () => {
     axios.get(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
@@ -71,7 +88,9 @@ function App() {
     axios
     .put('http://localhost:8000/api/users/' + editUser.id, editUser)
     .then((response) => {
-      getUsers()
+      setUsers(users.map((user) => {
+        return user.id !== editUser.id ? user : editUser
+      }))
     })
   }
 
@@ -80,45 +99,44 @@ function App() {
   },[])
 
   return (
-    <div className='App'>
-      <Add handleCreate={handleCreate} />
-      <div className='users'>
-      {users.map((user) => {
-        return (
-          <div className='trainer' key={user.id}>
-            <h4>Name: {user.name}</h4>
-            <h5>Age: {user.age}</h5>
-            {/* <img src={pokemon.img} /> */}
-            <h5>Pokemon: {user.pokemon}</h5>
-            <Edit handleUpdat={handleUpdate} id={user.id} />
-            <button onClick={handleDelete} value={user.id}>Delete Trainer</button>
-          </div>
-        )
-      })}
+    <BrowserRouter>
+      <div className='App'>
+        <button onClick={showAddButton}>Add a trainer</button>
+        <button onClick={showTrainer}>Show Trainers</button>
+        {showAdd ? <Add handleCreate={handleCreate} /> : null}
+        
+        {/* <Nav/> */}
+        <Trainers users = {users} handleUpdate = {handleUpdate} handleDelete = {handleDelete} />
+        
+        <div className='TitleSection'>
+        <h1>Pokemon Collection</h1>
+        <input type='text' onChange={(event) => {setPokemonName(event.target.value)}} 
+        />
+        <button onClick={searchPokemon}>Search Pokemon</button>
+        </div>
+        <div className='DisplaySection'>{!pokemonChosen ? (
+        <h1> Please choose a pokemon</h1>
+        ) : (
+        <>
+        <h1>{pokemon.name}</h1>
+        <img src={pokemon.img} />
+        <h3>Species: {pokemon.species}</h3>
+        <h3>Type: {pokemon.type}</h3>
+        <h4>Hp: {pokemon.hp}</h4>
+        <h4>Attack: {pokemon.attack}</h4>
+        <h4>Defense: {pokemon.defense}</h4>
+        </>
+        )}
 
+        </div>
       </div>
-      <div className='TitleSection'>
-      <h1>Pokemon Collection</h1>
-      <input type='text' onChange={(event) => {setPokemonName(event.target.value)}} 
-      />
-      <button onClick={searchPokemon}>Search Pokemon</button>
-      </div>
-      <div className='DisplaySection'>{!pokemonChosen ? (
-      <h1> Please choose a pokemon</h1>
-      ) : (
-      <>
-      <h1>{pokemon.name}</h1>
-      <img src={pokemon.img} />
-      <h3>Species: {pokemon.species}</h3>
-      <h3>Type: {pokemon.type}</h3>
-      <h4>Hp: {pokemon.hp}</h4>
-      <h4>Attack: {pokemon.attack}</h4>
-      <h4>Defense: {pokemon.defense}</h4>
-      </>
-      )}
+      <Routes>
+        <Route exact path = 'api/users'> 
+          {/* <Add/> */}
+        </Route>
 
-      </div>
-    </div>
+      </Routes>
+    </BrowserRouter>
   )
 }
 
